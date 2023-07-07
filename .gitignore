@@ -1,0 +1,8 @@
+# token
+config.json
+.env
+.prettierignore
+
+# dependencies
+node_modules
+
