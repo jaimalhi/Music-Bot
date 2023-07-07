@@ -1,4 +1,4 @@
-# Music-Bot -> WIP
+# Music-Bot
 - Will use **+** as the indentifier
 
 ## Features
