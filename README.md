@@ -1,13 +1,12 @@
 # Music-Bot -> WIP
----
 - Will use **+** as the indentifier
 
-## Development Tasks
-- [x] add *clean* feature to delete messages from chat
-- [ ] add *help* command that shows all other commands
-- [ ] play, stop, skip, and queue music through youtube
-- [ ] auto timeout, ie. leave channel by itself after a set time of no music playing
-- [ ] all features from above + play through Soundcloud
+## Features
+- *clean* feature to delete messages from chat
+- *help* command that shows all other commands
+- Play, stop, skip, and queue music through youtube
+- Auto timeout, ie. leave channel by itself after a set time of no music playing
+- Play through Soundcloud
 
 ## Resources
 - using [Node.js](https://nodejs.org/en?ref=gabrieltanner.org) version 18.16.0 LTS
@@ -26,8 +25,3 @@
 ## Running info
 - `node deploy-commands.js` must be run to new register commands to the bot
 - `node index.js` can be run to deploy bot through the terminal
-
-## Error Handling Reqs
-- [ ] unable to play song
-- [ ] song not found
-- [ ] user not in voice channel
