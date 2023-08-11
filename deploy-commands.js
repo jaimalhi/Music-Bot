@@ -17,7 +17,7 @@ for (const file of commandFiles) {
       commands.push(command.data.toJSON());
    } else {
       console.log(command);
-      console.log("================");
+      console.log("=== deploy-commands ===");
       console.log(
          `[WARNING] The command at ${filePath} is missing a required "data" or "execute" property.`
       );
@@ -33,17 +33,16 @@ const rest = new REST().setToken(token);
       console.log(`Started refreshing ${commands.length} application (/) commands.`);
 
       //! Use this code to test features on testing servers so it doesn't deploy globally
-      // const data = await rest.put(
-      // 	Routes.applicationGuildCommands(clientId, guildId),
-      // 	{ body: commands },
-      // );
+      const data = await rest.put(Routes.applicationGuildCommands(clientId, guildId), {
+         body: commands,
+      });
 
-      // global commands for all servers that have applications.commands authorized
-      const data = await rest.put(
-         // The put method is used to fully refresh all commands in the guild with the current set
-         Routes.applicationCommands(clientId),
-         { body: commands }
-      );
+      //* global commands for all servers that have applications.commands authorized
+      //   const data = await rest.put(
+      //      // The put method is used to fully refresh all commands in the guild with the current set
+      //      Routes.applicationCommands(clientId),
+      //      { body: commands }
+      //   );
 
       console.log(`Successfully reloaded ${data.length} application (/) commands.`);
    } catch (error) {

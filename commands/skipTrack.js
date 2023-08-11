@@ -1,5 +1,6 @@
 const { SlashCommandBuilder, PermissionsBitField, EmbedBuilder } = require("discord.js");
 const player = require("../index");
+const { isInVoiceChannel } = require("../utils/inVoiceChannel");
 
 module.exports = {
    data: new SlashCommandBuilder().setName("skip").setDescription("Skip the current song"),
@@ -13,21 +14,9 @@ module.exports = {
          return await interaction.reply({ embeds: [embed], ephemeral: true });
       }
 
-      // If the user is not in a voice channel, don't allow command
-      if (!(interaction.member instanceof GuildMember) || !interaction.member.voice.channel) {
-         return interaction.reply({
-            content: "You are not in a voice channel!",
-            ephemeral: true,
-         });
-      }
-      if (
-         interaction.guild.me.voice.channelId &&
-         interaction.member.voice.channelId !== interaction.guild.me.voice.channelId
-      ) {
-         return interaction.reply({
-            content: "You are not in my voice channel!",
-            ephemeral: true,
-         });
+      const inVoiceChannel = isInVoiceChannel(interaction);
+      if (!inVoiceChannel) {
+         return;
       }
 
       //TODO: add command functionality

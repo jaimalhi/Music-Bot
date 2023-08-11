@@ -37,6 +37,8 @@ for (const file of commandFiles) {
    if ("data" in command && "execute" in command) {
       client.commands.set(command.data.name, command);
    } else {
+      console.log(command);
+      console.log("=== index ===");
       console.log(
          `[WARNING] The command at ${filePath} is missing a required "data" or "execute" property.`
       );
@@ -62,35 +64,33 @@ const player = new Player(client);
 //export the player object
 module.exports = player;
 
-// basic error handlers
-player.on("error", (queue, error) => {
-   console.log(`[${queue.guild.name}] Error emitted from the queue: ${error.message}`);
-});
-player.on("connectionError", (queue, error) => {
-   console.log(`[${queue.guild.name}] Error emitted from the connection: ${error.message}`);
-});
-
 // event listeners for song start, stop, skip, etc.
-player.on("trackStart", (queue, track) => {
-   queue.metadata.send(
-      `🎶 | Started playing: **${track.title}** in **${queue.connection.channel.name}**!`
-   );
+player.events.on("audioTrackAdd", (queue, song) => {
+   queue.metadata.channel.send(`🎶 | Song **${song.title}** added to the queue!`);
 });
 
-player.on("trackAdd", (queue, track) => {
-   queue.metadata.send(`🎶 | Track **${track.title}** queued!`);
+player.events.on("playerStart", (queue, track) => {
+   queue.metadata.channel.send(`▶ | Started playing: **${track.title}**!`);
 });
 
-player.on("botDisconnect", (queue) => {
-   queue.metadata.send("❌ | I was manually disconnected from the voice channel, clearing queue!");
+player.events.on("audioTracksAdd", (queue) => {
+   queue.metadata.channel.send(`🎶 | Tracks have been queued!`);
 });
 
-player.on("channelEmpty", (queue) => {
-   queue.metadata.send("❌ | Nobody is in the voice channel, leaving...");
+player.events.on("disconnect", (queue) => {
+   queue.metadata.channel.send("❌ | Disconnected from the voice channel, clearing queue!");
 });
 
-player.on("queueEnd", (queue) => {
-   queue.metadata.send("✅ | Queue finished!");
+player.events.on("emptyChannel", (queue) => {
+   queue.metadata.channel.send("❌ | Nobody is in the voice channel, leaving...");
+});
+
+player.events.on("emptyQueue", (queue) => {
+   queue.metadata.channel.send("✅ | Queue finished!");
+});
+
+player.events.on("error", (queue, error) => {
+   console.log(`[${queue.guild.name}] Error emitted from the connection: ${error.message}`);
 });
 
 // ===================================== launch bot =====================================
