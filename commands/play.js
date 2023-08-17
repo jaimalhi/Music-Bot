@@ -1,5 +1,4 @@
 const { SlashCommandBuilder, EmbedBuilder, GuildMember } = require("discord.js");
-const player = require("../index");
 const { QueryType, useMainPlayer } = require("discord-player");
 const { isInVoiceChannel } = require("../utils/inVoiceChannel");
 
@@ -75,3 +74,5 @@ module.exports = {
       }
    },
 };
+
+module.exports = {};

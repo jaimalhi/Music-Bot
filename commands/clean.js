@@ -7,7 +7,8 @@ module.exports = {
       .addIntegerOption((option) =>
          option.setName("amount").setDescription("Number of messages to clean").setRequired(true)
       ),
-   async execute(interaction) {
+   execute: async (interaction) => {
+      //    async execute(interaction) {
       const amount = interaction.options.getInteger("amount");
 
       // Deny clean command if user doesn't have permissions
