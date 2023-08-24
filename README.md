@@ -25,3 +25,5 @@
 ## Running info
 - `node deploy-commands.js` must be run to new register commands to the bot
 - `node index.js` can be run to deploy bot through the terminal
+- Bot Invite Link
+    - `https://discord.com/api/oauth2/authorize?client_id=1103421619772346539&permissions=8&scope=bot%20applications.commands`

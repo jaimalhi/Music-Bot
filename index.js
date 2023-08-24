@@ -37,7 +37,7 @@ for (const folder of commandFolders) {
       const command = require(filePath);
       // Set a new item in the Collection with the key as the command name and the value as the exported module
       if ("data" in command && "execute" in command) {
-         console.log(command.data.name);
+         //  console.log(`Command: ${command.data.name}`);
          client.commands.set(command.data.name, command);
       } else {
          console.log(command);
