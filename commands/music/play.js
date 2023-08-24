@@ -1,29 +1,14 @@
-const {
-   GuildMember,
-   ApplicationCommandOptionType,
-   EmbedBuilder,
-   SlashCommandBuilder,
-   PermissionsBitField,
-} = require("discord.js");
+const { SlashCommandBuilder, EmbedBuilder, GuildMember } = require("discord.js");
 const { QueryType, useMainPlayer } = require("discord-player");
-const { isInVoiceChannel } = require("../utils/voicechannel");
-
-const data = new SlashCommandBuilder()
-   .setName("echo")
-   .setDescription("Replies with your input!")
-   .addStringOption((option) => option.setName("input").setDescription("The input to echo back"));
+const { isInVoiceChannel } = require("../../utils/inVoiceChannel");
 
 module.exports = {
-   name: "play",
-   description: "Play a song in your channel!",
-   options: [
-      {
-         name: "query",
-         type: ApplicationCommandOptionType.String,
-         description: "The song you want to play",
-         required: true,
-      },
-   ],
+   data: new SlashCommandBuilder()
+      .setName("play")
+      .setDescription("Play a song")
+      .addStringOption((option) =>
+         option.setName("query").setDescription("The song you want to play").setRequired(true)
+      ),
    async execute(interaction) {
       try {
          const inVoiceChannel = isInVoiceChannel(interaction);
