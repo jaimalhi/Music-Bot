@@ -31,3 +31,6 @@ return interaction.reply({ embeds: [embed], ephemeral: true })
         console.error(error);
     });
 ```
+
+# Info
+- Do not leave any commands directly within the commands folder, place within a subfolder such a `misc`

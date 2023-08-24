@@ -5,7 +5,10 @@ var timeout = [];
 module.exports = {
    name: Events.InteractionCreate,
    async execute(interaction) {
-      if (!interaction.isChatInputCommand()) return;
+      if (!interaction.isChatInputCommand()) {
+         console.log(`Interaction type: ${interaction}`);
+         return;
+      }
 
       const command = interaction.client.commands.get(interaction.commandName);
 

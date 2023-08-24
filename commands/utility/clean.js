@@ -7,7 +7,7 @@ module.exports = {
       .addIntegerOption((option) =>
          option.setName("amount").setDescription("Number of messages to clean").setRequired(true)
       ),
-   execute: async (interaction) => {
+   async execute(interaction) {
       //    async execute(interaction) {
       const amount = interaction.options.getInteger("amount");
 

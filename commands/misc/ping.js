@@ -1,5 +1,5 @@
 const { SlashCommandBuilder } = require("discord.js");
-const interactionCreate = require("../events/interactionCreate");
+const interactionCreate = require("../../events/interactionCreate");
 
 module.exports = {
    data: new SlashCommandBuilder().setName("ping").setDescription("Replies with Pong!"),
