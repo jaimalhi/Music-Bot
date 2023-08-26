@@ -1,5 +1,5 @@
 const { SlashCommandBuilder, EmbedBuilder, GuildMember } = require("discord.js");
-const { QueryType, useMainPlayer } = require("discord-player");
+const { useMainPlayer } = require("discord-player");
 const { isInVoiceChannel } = require("../../utils/inVoiceChannel");
 
 module.exports = {
@@ -17,11 +17,12 @@ module.exports = {
             return;
          }
 
-         await interaction.deferReply();
-
          const player = useMainPlayer();
          const songName = interaction.options.getString("query");
          const searchResult = await player.search(songName);
+
+         await interaction.deferReply();
+
          if (!searchResult.hasTracks())
             return interaction.followUp({
                content: `No results were found for ${songName}`,
@@ -40,25 +41,27 @@ module.exports = {
                   leaveOnEmpty: true,
                   leaveOnEnd: false,
                   bufferingTimeout: 0,
-                  volume: 10,
+                  volume: 50,
                   //defaultFFmpegFilters: ['lofi', 'bassboost', 'normalizer']
                },
             });
 
-            // if song query was successful, add song to queue
-            const queue = await player.createQueue(interaction.guild, {
-               metadata: interaction.channel,
-            });
-            searchResult.playlist
-               ? queue.addTracks(searchResult.tracks)
-               : queue.addTrack(searchResult.tracks[0]);
-            if (!queue.playing) await queue.play(); // if queue isnt playing, play the queue
-            // queue embed creation
+            // // if song query was successful, add song to queue
+            // const queue = await player.createQueue(interaction.guild, {
+            //    metadata: interaction.channel,
+            // });
+            // searchResult.playlist
+            //    ? queue.addTracks(searchResult.tracks)
+            //    : queue.addTrack(searchResult.tracks[0]);
+            // if (!queue.playing) await queue.play(); // if queue isnt playing, play the queue
+
+            // embed creation
             const queueEmbed = new EmbedBuilder()
                .setColor("Blue")
                .setDescription(
                   `:stopwatch: | Loading your ${searchResult.playlist ? "playlist" : "track"}...`
                );
+
             await interaction.followUp({ embeds: [queueEmbed], ephemeral: true });
          } catch (error) {
             await interaction.editReply({
@@ -67,8 +70,8 @@ module.exports = {
             return console.log(error);
          }
       } catch (error) {
-         await interaction.reply({
-            content: "There was an error trying to execute that command: " + error.message,
+         await interaction.followUp({
+            content: "There was an error trying to execute that command",
          });
          return console.log(error);
       }

@@ -1,7 +1,7 @@
 const fs = require("node:fs"); // fs is used to read the commands directory and identify our command files
 const path = require("node:path"); // path helps construct paths to access files and directories
 const { Client, Collection, Events, GatewayIntentBits, ActivityType } = require("discord.js");
-const { Player, QueryType } = require("discord-player");
+const { Player } = require("discord-player");
 const config = require("./config.json");
 
 // Create a new client instance
@@ -16,7 +16,7 @@ const client = new Client({
 // ===================================== Bot status display =====================================
 client.on("ready", () => {
    client.user.setActivity({
-      name: "MuSiC | +help",
+      name: "MuSiC | !help",
       type: ActivityType.Playing,
    });
 });
@@ -63,10 +63,23 @@ for (const file of eventFiles) {
    }
 }
 
+// ===================================== Allow prefix commands =====================================
+client.on("messageCreate", async (message) => {
+   const prefix = config.prefix;
+   if (!message.content.startsWith(prefix) || message.author.bot) return;
+
+   const args = message.content.slice(prefix.length).split(/ +/);
+   const command = args.shift().toLowerCase();
+
+   // message array
+   const msgArray = message.content.split(" ");
+   const argument = msgArray.slice(1);
+   const cmd = msgArray[0];
+});
+
 // ===================================== Creating discord player =====================================
 const player = new Player(client);
-//export the player object
-module.exports = player;
+player.extractors.loadDefault().then((r) => console.log("Extractors loaded successfully"));
 
 // event listeners for song start, stop, skip, etc.
 player.events.on("audioTrackAdd", (queue, song) => {

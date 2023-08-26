@@ -35,7 +35,7 @@ module.exports = {
       }
 
       try {
-         await command.execute(interaction);
+         command.execute(interaction);
 
          timeout.push(interaction.user.id);
          setTimeout(() => {
@@ -44,6 +44,9 @@ module.exports = {
       } catch (error) {
          console.error(`Error executing ${interaction.commandName}`);
          console.error(error);
+         await interaction.followUp({
+            content: "There was an error trying to execute that command!",
+         });
       }
    },
 };
